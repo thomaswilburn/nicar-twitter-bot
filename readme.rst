@@ -25,7 +25,6 @@ In addition to learning the specifics of the API, we'll also be talking about No
 * Continuation-passing style in Node APIs
 * Connecting to Twitter (apps and auth)
 * Making our own Twitter wrapper module
-* Handling control flow with ``async``
 * Putting it all together
 
 Helpful links

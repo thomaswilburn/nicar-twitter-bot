@@ -4,7 +4,6 @@
   "description": "A simple Twitter bot built for NICAR 2016",
   "main": "index.js",
   "dependencies": {
-    "async": "^1.5.2",
     "emojilib": "^2.0.2",
     "twitter": "^1.2.5"
   },

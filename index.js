@@ -1,11 +1,32 @@
-var async = require("async");
 var emojify = require("./emojify");
 var twitter = require("./tweets");
 
-var getMyID = c => twitter.getUserID("thomaswilburn", c);
+var getMyID = function() {
+  console.log("Getting user ID...");
+  twitter.getUserID("thomaswilburn", function(err, id) {
+    if (err) return console.log("Couldn't get user ID", err);
+    getMyFollowers(id);
+  });
+}
 
-var streamMyFollowers = function(followers, c) {
-  twitter.client.stream("statuses/filter", { follow: followers.join() }, s => c(null, s));
+var getMyFollowers = function(id) {
+  console.log("Got ID:", id);
+  console.log("Getting followers...");
+  twitter.getFollowerIDs(id, function(err, followers) {
+    if (err) return console.log("Couldn't get followers", err);
+    streamMyFollowers(followers);
+  });
+};
+
+var streamMyFollowers = function(followers) {
+  console.log(`Got ${followers.length} followers`);
+  console.log("Connecting to stream...");
+  twitter.client.stream("statuses/filter", { follow: followers.join() }, function(stream) {
+    console.log("Ready to emojify!");
+    stream.on("data", onTweet);
+    stream.on("error", e => console.log("Stream error:", e));
+    stream.on("end", e => console.log("Stream ended:", e));
+  });
 };
 
 var onTweet = function(tweet) {
@@ -15,14 +36,9 @@ var onTweet = function(tweet) {
   var tweetID = tweet.id_str;
   var emojified = tweet.text.split(/\b/).map(emojify).join("");
   var reply = `@${username}: ${emojified}`;
-  console.log(reply);
   if (reply.length > 140 || emojified == tweet.text) return;
+  console.log(reply, "\n");
   twitter.reply(tweetID, reply);
 };
 
-async.waterfall([getMyID, twitter.getFollowerIDs, streamMyFollowers], function(err, stream) {
-  if (err) return console.log("Fatal error:", err);
-  stream.on("error", e => console.log("Stream error:", e));
-  stream.on("data", onTweet);
-  stream.on("end", e => console.log("Stream ended:", e));
-});
+getMyID();
