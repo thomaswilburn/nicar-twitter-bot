@@ -17,6 +17,17 @@ In this class, we're going to create a simple bot that connects to the Twitter S
 
 In addition to learning the specifics of the API, we'll also be talking about Node's runtime model, how to handle asynchronicity and callbacks, and methods for splitting a Node application into easily-managed modules.
 
+(Rough) Class Outline
+---------------------
+
+* Running Node scripts
+* Installing from NPM
+* Continuation-passing style in Node APIs
+* Connecting to Twitter (apps and auth)
+* Making our own Twitter wrapper module
+* Handling control flow with ``async``
+* Putting it all together
+
 Helpful links
 -------------
 
