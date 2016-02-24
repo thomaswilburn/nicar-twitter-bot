@@ -1,19 +1,23 @@
-var auth = require("./auth.json");
+var async = require("async");
 var emojify = require("./emojify");
-var Twitter = require("twitter");
+var twitter = require("./tweets");
 
-var client = new Twitter(auth);
+var onTweet = function(tweet) {
+  var username = tweet.user.screen_name;
+  var tweetID = tweet.id_str;
+  var emojified = tweet.text.split(/\b/).map(emojify).join("");
+  var reply = `@${username}: ${emojified}`;
+  if (reply.length > 140 || emojified == tweet.text) return;
+  twitter.reply(tweetID, reply);
+};
 
-// client.post("statuses/update", { status: "Testing Twitter bot for NICAR, don't mind me." }, function(err, tweet, response) {
-//   console.log(tweet, response);
-// });
-
-var test = `
-You hear the door slam and realize there's nowhere left to run
-You feel the cold hand and wonder if you'll ever see the sun
-You close your eyes and hope that this is just imagination
-But all the while you hear a creature creepin' up behind
-You're out of time
-`;
-
-console.log(test.split(/\b/g).map(emojify).join(""));
+async.waterfall([
+  c => twitter.getUserID("thomaswilburn", c),
+  (id, c) => twitter.getFollowerIDs(id, c),
+  (followers, c) => twitter.client.stream("statuses/filter", { follow: followers.join(), track: "emojify" }, c)
+], function(err, stream) {
+  if (err) return console.log("Fatal error:", err);
+  stream.on("error", e => console.log("Stream error:", e);
+  stream.on("data", onTweet);
+  stream.on("end", e => console.log("Stream ended:", e));
+});
