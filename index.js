@@ -1,44 +1,9 @@
 var emojify = require("./emojify");
-var twitter = require("./tweets");
 
-var getMyID = function() {
-  console.log("Getting user ID...");
-  twitter.getUserID("thomaswilburn", function(err, id) {
-    if (err) return console.log("Couldn't get user ID", err);
-    getMyFollowers(id);
-  });
-}
+// 1. Get the current user's ID from users/lookup
 
-var getMyFollowers = function(id) {
-  console.log("Got ID:", id);
-  console.log("Getting followers...");
-  twitter.getFollowerIDs(id, function(err, followers) {
-    if (err) return console.log("Couldn't get followers", err);
-    streamMyFollowers(followers);
-  });
-};
+// 2. Get the user's followers with followers/ids
 
-var streamMyFollowers = function(followers) {
-  console.log(`Got ${followers.length} followers`);
-  console.log("Connecting to stream...");
-  twitter.client.stream("statuses/filter", { follow: followers.join() }, function(stream) {
-    console.log("Ready to emojify!");
-    stream.on("data", onTweet);
-    stream.on("error", e => console.log("Stream error:", e));
-    stream.on("end", e => console.log("Stream ended:", e));
-  });
-};
+// 3. Connect to the stream for those followers using statuses/filter
 
-var onTweet = function(tweet) {
-  //The stream won't apply keyword search to followers, so filter here instead
-  if (!tweet.text.match(/emojify/)) return;
-  var username = tweet.user.screen_name;
-  var tweetID = tweet.id_str;
-  var emojified = tweet.text.split(/\b/).map(emojify).join("");
-  var reply = `@${username}: ${emojified}`;
-  if (reply.length > 140 || emojified == tweet.text) return;
-  console.log(reply, "\n");
-  twitter.reply(tweetID, reply);
-};
-
-getMyID();
+// 4. On data, reply to tweets matching a given phrase with statuses/update
