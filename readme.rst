@@ -1,7 +1,7 @@
 Building Twitter Bots in Node
 =============================
 
-This repo contains notes, sample code, and reference links for the NICAR 2016 class on building Twitter bots with Node. 
+This repo contains notes, sample code, and reference links for the NICAR 2016 class on building Twitter bots with Node. You can clone this to get started in the class, but you don't have to. A final version of the code is available in the `finished` branch.
 
 Requirements
 ------------
