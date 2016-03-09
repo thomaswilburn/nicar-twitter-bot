@@ -1,6 +1,8 @@
 Building Twitter Bots in Node
 =============================
 
+.. image:: http://i.giphy.com/I7kkegrRyNrk4.gif
+
 This repo contains notes, sample code, and reference links for the NICAR 2016 class on building Twitter bots with Node. You can clone this to get started in the class, but you don't have to. A final version of the code is available in the `finished` branch.
 
 Requirements
@@ -30,7 +32,7 @@ In addition to learning the specifics of the API, we'll also be talking about No
 Helpful links
 -------------
 
-* `App access <https://apps.twitter.com/>`_
+* `Twitter App access control panel <https://apps.twitter.com/>`_
 * `REST API documentation <https://dev.twitter.com/rest/public>`_
 * `Stream API documentation <https://dev.twitter.com/streaming/reference/post/statuses/filter>`_
 * `Twitter client module on NPM <https://www.npmjs.com/package/twitter>`_
