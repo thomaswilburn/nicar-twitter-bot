@@ -41,10 +41,17 @@ Writing a module
 * To import a local file, require its relative path without the .js extension: ``var module = require("./module")``
 * Let's write a tweets.js module that exports an object with API wrapper functions in it.
 
+Extending this into a real bot
+------------------------------
+
+1. similar to this method, respond when the stream updates
+2. run this script as a task every few hours (the @hotteststartups method)
+3. respond to outside criteria, either from inside or outside Node
+
 Closing tips
 ------------
 
 * Beware the callback pyramid! Name your functions and chain them together in discrete steps, instead of building an eternal cone of tragedy.
 * When writing async procedures, try to handle errors near the code that requested them. Don't let it spread into random callbacks.
-* Create small modules, and share them freely. Publishing to NPM is free.
 * If you're going to write a lot of Node, learn how the ``async`` module works (or one of its alternatives). Managing asynchronicity is going to be your biggest challenge, so make it easier on yourself.
+* When writing a larger application, think of how to package this up for integrating into the larger app. One good way to do it is to export a constructor for an interface object, and then dispatch events on it
