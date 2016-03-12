@@ -37,6 +37,6 @@ Helpful links
 * `Stream API documentation <https://dev.twitter.com/streaming/reference/post/statuses/filter>`_
 * `Twitter client module on NPM <https://www.npmjs.com/package/twitter>`_
 * `Sample app written for Seattle's May Day protests <https://github.com/seattletimes/mayday-twitter/blob/master/index.js>`_
-
+* Fun bots for inspiration: `Appropriate Tributes <https://twitter.com/godtributes>`_, Hottest Startups <https://twitter.com/hotteststartups>`_
 
 
